@@ -8,9 +8,9 @@
 <body>
 <form method="post" id="currentForm" name="currentForm">
     <h4>Имя</h4>
-    <input type="text" name="userName" size="40">
+    <input type="text" required name="userName" id="userName" size="40">
     <h4>Фамилия</h4>
-    <input type="text" name="userSurname" size="40">
+    <input type="text" required name="userSurname" id="userSurname" size="40">
 
     <div><h4>Пол:</h4>
    <input type="radio" name="gender" value="Man">Мужчина
@@ -21,6 +21,10 @@
     <input type="checkbox" id="citizen" name="citizen" value="yes">
     <label for="citizen">Гражданин РФ</label>
     </div> <br>
+    <div>
+        <h4>Телефон</h4>
+        <input type="tel" data-tel-input placeholder="+7 (ХХХ) XXX-XX-XX" name="phoneNumber" id="phoneNumber" maxlength="18">
+    </div>
     <h4>Дата рождения:</h4>
     <input type="date" id="dateBorn" name="dateBorn"
        value="1990-01-01"

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, make_response, jsonify
 from db import engine
 import json
 from sqlalchemy.orm import Session, sessionmaker
-from models import User, UserInfo
+from models import User, UserInfo, UserPhoneNumber
 
 app = Flask(__name__)
 
@@ -26,7 +26,7 @@ def add_user():
     for field in required_fields:
         if field not in form_data or form_data[field] == '':
             form_errors.append({
-                'field': field, 
+                'field': field,
                 'text': 'Поле обязательно к заполнению'
             })
     if form_errors:
@@ -45,6 +45,7 @@ def add_user():
         if not is_education_selected:
             education = ''
         comment = form_data.get('comment')
+        phone_number = form_data.get('phoneNumber')
 
         new_user = User(
             name = name,
@@ -63,10 +64,17 @@ def add_user():
             citizenship = citizen
         )
 
+        new_user_phone_number = UserPhoneNumber(
+            user_id = new_user.id,
+            phone_number = phone_number
+        )
+
         s.add(new_user_info)
+        s.add(new_user_phone_number)
         s.commit()
         success = True
         message = 'Данные успешно добавлены в базу'
+
 
     errors = form_errors
     response = make_response(

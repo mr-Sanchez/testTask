@@ -30,3 +30,13 @@ class UserInfo(Base):
     __table_args__ = (
         ForeignKeyConstraint(['user_id'], ['user.user_id']),
     )
+
+class UserPhoneNumber(Base):
+    __tablename__ = 'user_phone'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.user_id'))
+    phone_number = Column(String(18))
+    
+    __table_args__ = (
+        ForeignKeyConstraint(['user_id'], ['user.user_id']),
+    )
