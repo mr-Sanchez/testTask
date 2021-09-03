@@ -4,46 +4,53 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="{{ url_for('static', filename='js/form.js') }}" type="text/javascript"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://use.fontawesome.com/79520d2aca.js"></script>
 </head>
 <body>
-<form method="post" id="currentForm" name="currentForm">
-    <h4>Имя</h4>
-    <input type="text" required name="userName" id="userName" size="40">
-    <h4>Фамилия</h4>
-    <input type="text" required name="userSurname" id="userSurname" size="40">
-
-    <div><h4>Пол:</h4>
-   <input type="radio" name="gender" value="Man">Мужчина
-   <input type="radio" name="gender" value="Women">Женщина
-    </div><br>
-
-    <div>
-    <input type="checkbox" id="citizen" name="citizen" value="yes">
-    <label for="citizen">Гражданин РФ</label>
-    </div> <br>
-    <div>
-        <h4>Телефон</h4>
-        <input type="tel" data-tel-input placeholder="+7 (ХХХ) XXX-XX-XX" name="phoneNumber" id="phoneNumber" maxlength="18">
-    </div>
-    <h4>Дата рождения:</h4>
-    <input type="date" id="dateBorn" name="dateBorn"
-       value="1990-01-01"
-       min="1900-01-01" max="2021-12-31">
-
-    <h4>Образование</h4>
-    <p><select name="education" id="education">
-    <option value="0">Выберите образование</option>
-    <option value="secondary">Среднее</option>
-    <option value="incomplete higher">Высшее неоконченное</option>
-    <option value="higher">Высшее</option>
-    </select></p>
-
-    <h4>О себе:</h4>
-    <textarea name="comment" id="comment"></textarea>
-
-    <div>
-        <button id="save">Сохранить</button>
-    </div>
-</form>
+    <form method="post" id="userForm" name="userForm">
+        <div id="users">
+            <div class="user">
+                <label for="userName">Имя</label>
+                <input type="text" required name="userName" id="userName" size="40">
+                <label for="userSurname">Фамилия</label>
+                <input type="text" required name="userSurname" id="userSurname" size="40">
+    
+                <div>
+                    <label for="gender">Пол:</label>
+                    <input type="radio" name="gender" value="Man">Мужчина
+                    <input type="radio" name="gender" value="Women">Женщина
+                </div><br>
+    
+                <div>
+                    <label for="citizen">Гражданин РФ</label>
+                    <input type="checkbox" id="citizen" name="citizen" value="yes">
+                </div>
+                <div>
+                    <label for="phoneNumber">Телефон</label>
+                    <input type="tel" data-tel-input placeholder="+7 (ХХХ) XXX-XX-XX" name="phoneNumber" id="phoneNumber" maxlength="18">
+                </div>
+                <label for="dateBorn">Дата рождения</label>
+                <input type="date" id="dateBorn" name="dateBorn"
+                value="1990-01-01"
+                min="1900-01-01" max="2021-12-31">
+    
+                <label for="education">Образование</label>
+                <select name="education" id="education">
+                    <option value="0">Выберите образование</option>
+                    <option value="secondary">Среднее</option>
+                    <option value="incomplete higher">Высшее неоконченное</option>
+                    <option value="higher">Высшее</option>
+                </select>
+    
+                <label for="comment">Комментарий</label>
+                <textarea name="comment" id="comment"></textarea>
+            </div>
+        </div>
+        <div>
+            <button id="addUser">Добавить пользователя</button>
+            <button id="save">Сохранить</button>
+        </div>
+    </form>
 </body>
 </html>

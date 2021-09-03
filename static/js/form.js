@@ -1,6 +1,31 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function(){
 
     let phoneInputs = document.querySelectorAll("input[data-tel-input]");
+
+    let addUser = function(event){ 
+        event.preventDefault();
+        let div = document.querySelector(".user").cloneNode(true);
+        div.id = `user_${Date.now()}`;
+        let btnDelete = document.createElement("i");
+        btnDelete.className = "fa fa-times fa-lg";
+        btnDelete.onclick = deleteUser;
+        div.append(btnDelete);
+        document.querySelector("#users").append(div);
+    }
+
+    let deleteUser = function(event){
+        event.preventDefault();
+        console.log(this.parentNode.id);
+        let userToDelete = document.querySelector(`#${this.parentNode.id}`);
+        //console.log(document.querySelector(`#${this.parentNode.id}`));
+        let speed = 300;
+        let seconds = speed / 1000;
+        userToDelete.style.transition = "opacity "+seconds+"s ease";
+        userToDelete.style.opacity = 0;
+        setTimeout(function() {
+            userToDelete.remove(userToDelete);
+        }, speed);
+    }
 
     let getInputNumbersValue = function(input){
         /*
@@ -11,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     let onPhoneInput = function(e){
+        console.log(Date.now());
         // Получаем значение из поля ввода номера телефона
         let input = e.target,
             inputNumbersValue = getInputNumbersValue(input),
@@ -84,9 +110,12 @@ document.addEventListener("DOMContentLoaded", function() {
         phoneInput.addEventListener("paste", onPhonePaste);
     }
 
+    let btnAdd = document.querySelector("#addUser");
+    btnAdd.onclick = addUser;
 
-    let btn = document.querySelector("#save");
-    btn.addEventListener("click", async function(event) {
+
+    let btnSave = document.querySelector("#save");
+    btnSave.addEventListener("click", async function(event) {
         event.preventDefault();
         let formFields = Array.from(document.getElementsByTagName("input"), e => e);
         formFields.forEach(element => {
@@ -101,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function() {
         let name = capitalizeFirstLetter(document.querySelector("#userName").value);
         let surname = capitalizeFirstLetter(document.querySelector("#userSurname").value);
 
-        
         
         let education = document.querySelector("#education");
         formData.set("userName", name);
