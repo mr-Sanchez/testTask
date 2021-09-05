@@ -32,7 +32,7 @@ label {
     font-size: 16px;
 }
 
-#comment {
+.comment {
     margin-top: 15px;
     width: 100%;
 }

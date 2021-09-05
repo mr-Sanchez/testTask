@@ -1,20 +1,20 @@
 from flask import Flask, render_template, request, make_response, jsonify
 from db import engine
 import json
-from sqlalchemy.orm import Session, sessionmaker
 from models import User, UserInfo, UserPhoneNumber
+from db import start_session
 
 app = Flask(__name__)
-
-session = sessionmaker(bind=engine)
 
 @app.route('/')
 def index():
     return render_template("picture.html")
 
+
 @app.route('/add_user', methods=['POST'])
-def add_user():
-    form_data = request.form
+@start_session
+def add_user(s):
+    form_data = request.get_json()
     form_errors = []
     required_fields = (
         'userName',
@@ -22,30 +22,19 @@ def add_user():
         'gender',
         'dateBorn',
     )
-    
-    for field in required_fields:
-        if field not in form_data or form_data[field] == '':
-            form_errors.append({
-                'field': field,
-                'text': 'Поле обязательно к заполнению'
-            })
-    if form_errors:
-        success = False
-        message = 'Not OK'
-    else:
-        name = form_data.get('userName')
-        surname = form_data.get('userSurname')
-        gender = form_data.get('gender')
+
+    for key in form_data:
+        user_info = form_data[key]
+        name = user_info['name']
+        surname = user_info['surname']
+        gender = user_info['gender']
         citizen = 0
         if form_data.get('citizen'):
             citizen = 1
-        date_born = form_data.get('dateBorn')
-        education = form_data.get('education')
-        is_education_selected = form_data['education'] != '0'
-        if not is_education_selected:
-            education = ''
-        comment = form_data.get('comment')
-        phone_number = form_data.get('phoneNumber')
+        phone_number = user_info['phoneNumber']
+        date_born = user_info['dateBorn']
+        education = user_info['education']
+        comment = user_info['comment']
 
         new_user = User(
             name = name,
@@ -53,7 +42,7 @@ def add_user():
             bornDate = date_born,
             gender = gender
         )
-        s = session()
+        
         s.add(new_user)
         s.flush()
 
@@ -71,10 +60,9 @@ def add_user():
 
         s.add(new_user_info)
         s.add(new_user_phone_number)
-        s.commit()
-        success = True
-        message = 'Данные успешно добавлены в базу'
 
+    success = True
+    message = 'Данные успешно добавлены в базу'
 
     errors = form_errors
     response = make_response(
@@ -84,8 +72,10 @@ def add_user():
             'errors': errors,
         })
     )
-    return response
     
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
+        
+    
